@@ -26,6 +26,7 @@ public class Menu {
 			case 1:
 				while(subMenue1){
 					System.out.println("1.Load Data");
+					System.out.println("0.createShopTable");
 					System.out.println("2.Set Shop Name");
 					System.out.println("3.Set Invoice Header");
 					System.out.println("4.Go Back");
@@ -38,8 +39,8 @@ public class Menu {
 					switch (options){
 					case 1:
 						
-					
-						
+						Invoice invoice = new Invoice();
+						invoice.insertIntoInvoiceTable();
 						
 						
 						
@@ -50,17 +51,24 @@ public class Menu {
 					
 						break;
 						
+					case 0:
+						
+						
+						Shop shop = new Shop ();
+						shop.createShopTable();
+						
+						
+						
+						
+						
+						break;
+						
+						
 					case 2:
 						
 						
+						break;
 						
-						
-						
-						
-						
-						
-						
-						break;	
 						
 					case 3:
 						
@@ -110,8 +118,8 @@ public class Menu {
 					
 					switch (options){
 					case 1:
-						
-						
+						Items items = new Items();
+						items.createInvoiceTable();
 						
 						break;
 						
@@ -156,7 +164,12 @@ public class Menu {
 				
 			case 3:
 				
-
+				Invoice invoice = new Invoice();
+				invoice.createInvoiceTable();
+				
+				
+				
+				
 				break;
 			case 4:
 				
