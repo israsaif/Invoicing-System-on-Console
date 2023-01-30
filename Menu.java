@@ -1,14 +1,16 @@
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class Menu {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Scanner sa = new Scanner(System.in);
 		
 		boolean bigMenu = true;
 		boolean subMenue1=true;
 		boolean subMenue2 = true;
+		
 		while (bigMenu) {
 			System.out.println("1.Shop Settings");
 			System.out.println("2.Manage Shop Items");
@@ -25,11 +27,14 @@ public class Menu {
 
 			case 1:
 				while(subMenue1){
-					System.out.println("1.Load Data");
+					
 					System.out.println("0.createShopTable");
-					System.out.println("2.Set Shop Name");
-					System.out.println("3.Set Invoice Header");
-					System.out.println("4.Go Back");
+					System.out.println("1.insertShopTable");
+					System.out.println("2.Load Data invoice");
+					System.out.println("3.Load Data Items");
+					System.out.println("4.Set Shop Name");
+					System.out.println("5.Set Invoice Header");
+					System.out.println("6.Go Back");
 					
 					Scanner saa = new Scanner(System.in);
 
@@ -37,21 +42,8 @@ public class Menu {
 					int options = Integer.parseInt(bb1);
 
 					switch (options){
-					case 1:
-						
-						Invoice invoice = new Invoice();
-						invoice.insertIntoInvoiceTable();
-						
-						
-						
-						
-						
-						
-						
 					
-						break;
-						
-					case 0:
+	                 case 0:
 						
 						
 						Shop shop = new Shop ();
@@ -62,18 +54,50 @@ public class Menu {
 						
 						
 						break;
+					case 1:
+						Shop Shop=new Shop();
+						Shop.insertIntoShopTable();
 						
 						
-					case 2:
 						
 						
+						
+						
+					
+						
+						
+					
 						break;
+						
+					case 2:	
+						
+						Invoice invoice = new Invoice();
+						invoice.insertIntoInvoiceTable();
+						
+						
+						
 						
 						
 					case 3:
 						
 						
+						Items items= new Items();
+						items.insertIntoItemsTable();
 						
+						
+						
+						
+						
+						
+						
+						break;
+						
+						
+					case 4:
+						
+						
+						Shop shop1= new Shop();
+						shop1.insertIntoShopTable();
 						
 						
 						
@@ -85,16 +109,26 @@ public class Menu {
 						break;
 						
 						
-                    case 4:
+                    case 5:
 						
-                    	subMenue1=false;
+                    	
+                    	
+                    	
+						
+						break;
+						
+						
+						
+                    case 6:	
+                    	
+                    	
+                    subMenue1=false;
                     	
                     	bigMenu = true;
+						
+                    	break;
                     	
                     	
-						
-						break;
-						
 					}
 				break;
 				
@@ -117,9 +151,13 @@ public class Menu {
 
 					
 					switch (options){
+					
+					
+					
+					
 					case 1:
 						Items items = new Items();
-						items.createInvoiceTable();
+						items.createItemsTable();
 						
 						break;
 						

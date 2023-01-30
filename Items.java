@@ -1,5 +1,12 @@
+import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.mysql.cj.xdevapi.Statement;
 
 public class Items {
   
@@ -43,11 +50,11 @@ public class Items {
 	
 	
 	
-	public static boolean createInvoiceTable() {
+	public static boolean createItemsTable() {
 		String url = "jdbc:mysql://localhost:3306/Invoice";
 		String user = "root";
 		String pass = "root";
-		String sqlDB = "CREATE TABLE Items "+"(id INTEGER NOT NULL AUTO_INCREMENT, "+"itemID INTEGER,"+" itemName VARCHAR(80), "+" unitPrice VARCHAR(80), "+" quantity INTEGER, "+" qtyAmount INTEGER, "+" PRIMARY KEY ( id ))";
+		String sqlDB = "CREATE TABLE Items "+"(id INTEGER NOT NULL AUTO_INCREMENT, "+"itemID INTEGER,"+" itemName VARCHAR(80), "+" unitPrice VARCHAR(80), "+" quantity INTEGER, "+" qtyAmount INTEGER,"+" Shop_id INTEGER "+"REFERENCES Shop(id),"+" PRIMARY KEY ( id ))";
 				
 		java.sql.Connection conn = null;
 		try {
@@ -70,9 +77,84 @@ public class Items {
 	}
 	
 	
+	public static void insertIntoItemsTable()
+			throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Scanner sa = new Scanner(System.in);
+		System.out.println("PLS Enter Database URL");
+		String url = sa.next();
+		
+		System.out.println("PLS Enter userName");
+		String user = sa.next();
+		
+		System.out.println("PLS Enter password");
+		String pass = sa.next();
+		
+		System.out.println("PLS Enter item ID ");
+		String item_Id = sa.next();
+		
+		System.out.println("PLS Enter item Name");
+		String item_Name = sa.next();
+		
+		System.out.println("PLS Enter unit Price");
+		String unitPrice = sa.next();
+		
+		System.out.println("PLS Enter quantity");
+		int quantity = sa.nextInt();
+		
+		System.out.println("PLS Enter qtyAmount");
+		int qtyAmount = sa.nextInt();
+		
+		System.out.println("PLS Enter shop name you want");
+		String name = sa.next();
+		
+		String sql = "select id  from Shop where ShopName ='" + name + "'";
+		Connection con = null;
+		try {
+			Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			
+			DriverManager.registerDriver(driver);
+			
+			con = DriverManager.getConnection(url, user, pass);
+			PreparedStatement pstmt = con.prepareStatement(sql);
+		
+			try {
+				int shop_id = 0;
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					shop_id = rs.getInt("id");
+				}
+				sql = "INSERT INTO Items(itemId,itemName,unitPrice,quantity,qtyAmount,Shop_id)VALUES(?,?,?,?,?,?)";
+				try {
+					PreparedStatement pstmt3 = con.prepareStatement(sql);
+					pstmt3.setString(1, item_Id);
+					pstmt3.setString(2, item_Name);
+					pstmt3.setString(3, unitPrice);
+					pstmt3.setInt(4, quantity);
+					pstmt3.setInt(5, qtyAmount);
+					pstmt3.setInt(6, shop_id);
+					pstmt3.executeUpdate();
+					System.out.println("added successfully");
+					Driver driver1 = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+					DriverManager.registerDriver(driver1);
+					con = DriverManager.getConnection(url, user, pass);
+					Statement st = (Statement) con.createStatement();
+					int m = ((java.sql.Statement) st).executeUpdate(sql);
+					if (m >= 1) {
+						System.out.println("Inserte table in database is success...");
+					} else {
+						System.out.println(" table already Inserte in given database...");
+					}
+					con.close();
+				} catch (Exception ex) {
+					System.err.println(ex);
+				}
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+	}
 	
+	}
 	
-	
-	
-	
-}
