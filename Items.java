@@ -118,7 +118,7 @@ public class Items {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 		
 			try {
-				int shop_id = 1;
+				int shop_id = 0;
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
 					shop_id = rs.getInt("id");
@@ -162,7 +162,7 @@ public class Items {
 		String username = "root";
 		String password = "root";
 		Connection conn = null;
-		Statement stmt = null;
+		//Statement stmt = null;
 		try {
 //			try {
 				
@@ -176,23 +176,51 @@ public class Items {
 //			System.out.println("Connection is created successfully:");
 			
 			Scanner scanner = new Scanner(System.in);
-			System.out.println("Please Enter any id to delete  :");
+			System.out.println("Please Enter id you want to delete :");
 			int userinput = scanner.nextInt();
-
-			
-
 			String sql = "delete from Items where id ='" + userinput + "'";
-			int result = ((java.sql.Statement) st).executeUpdate(sql);
-			System.out.println("Record has been delete in the table successfully..................");
-		} catch (SQLException excep) {
-			excep.printStackTrace();
+			int result =((java.sql.Statement) st).executeUpdate(sql);
+			
+			//System.out.println("Record has been delete in the table successfully..................");
+		} catch (Exception excep) {
+			System.err.println(excep);
 		
 		}
 //		} catch (Exception excep) {
 //			excep.printStackTrace();
 //		}
 	}
-}
+	
+//	public static void updateByItems() {
+//
+//		String url = "jdbc:mysql://localhost:3306/Invoice";
+//		String username = "root";
+//		String password = "root";
+//		Connection conn = null;
+//		Statement stmt = null;
+//		
+//			try {
+//				Class.forName("com.mysql.cj.jdbc.Driver");
+//			} catch (Exception e) {
+//				System.out.println(e);
+//			}
+//			conn = DriverManager.getConnection(url, username, password);
+//			System.out.println("Connection is created successfully:");
+//			stmt = (Statement) conn.createStatement();
+//			Scanner scanner = new Scanner(System.in);
+//			System.out.println("Please Enter any id you want:");
+//			int userinput = scanner.nextInt();
+//			
+//			
+//
+//			Statement st = (Statement) conn.createStatement();
+//			String sql = "UPDATE Items SET qtyAmount='" + userinput+ "'";
+//			int result = ((java.sql.Statement) st).executeUpdate(sql);
+//			System.out.println("Record has been updated in the table successfully..................");
+//		} catch (SQLException excep) {
+//			excep.printStackTrace();
+//		} catch (Exception excep) {
+//			excep.printStackTrace();
 //		} finally {
 //			try {
 //				if (stmt != null)
@@ -206,14 +234,20 @@ public class Items {
 //				se.printStackTrace();
 //			}
 //		}
-//		System.out.println("Please check it in the MySQL Table. Record is now delete.......");
+//		System.out.println("Please check it in the MySQL Table. Record is now updated.......");
+//
 //	}
 
 	
-//	}
+	
+	
+	
+	
+	
+	
+	
+}
 
-	
-	
 	
 	
 	

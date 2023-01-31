@@ -5,6 +5,9 @@ import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,13 +15,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.mysql.cj.xdevapi.Statement;
 
 
 public class Invoice {
 
 	private String customerName;
 	private int phoneNumber;
-	private int invoiceDate;
+	private String invoiceDate;
 	private int numberItems;
 	private int totalAmount;
 	private int paidAmoun ;
@@ -35,10 +39,10 @@ public class Invoice {
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public int getInvoiceDate() {
+	public String getInvoiceDate() {
 		return invoiceDate;
 	}
-	public void setInvoiceDate(int invoiceDate) {
+	public void setInvoiceDate(String invoiceDate) {
 		this.invoiceDate = invoiceDate;
 	}
 	public int getNumberItems() {
@@ -71,7 +75,7 @@ public class Invoice {
 		String url = "jdbc:mysql://localhost:3306/Invoice";
 		String user = "root";
 		String pass = "root";
-		String sqlDB = "CREATE TABLE Invoice "+"(id INTEGER NOT NULL AUTO_INCREMENT, "+"customerName VARCHAR(80),"+" phoneNumber INTEGER, "+" invoiceDate INTEGER, "+" numberItems INTEGER, "+" totalAmount INTEGER, "+" paidAmoun INTEGER,"+"balance INTEGER,"+ " Items_id INTEGER "+"REFERENCES Items(id),"+" PRIMARY KEY ( id ))";
+		String sqlDB = "CREATE TABLE Invoice "+"(id INTEGER NOT NULL AUTO_INCREMENT, "+"customerName VARCHAR(80),"+" phoneNumber INTEGER, "+" invoiceDate date, "+" numberItems INTEGER, "+" totalAmount INTEGER, "+" paidAmoun INTEGER,"+"balance INTEGER,"+ " Items_id INTEGER "+"REFERENCES Items(id),"+" PRIMARY KEY ( id ))";
 				
 		java.sql.Connection conn = null;
 		try {
@@ -96,85 +100,116 @@ public class Invoice {
 	
 	
 	
-	public static void insertIntoInvoiceTable() {
+	public static void insertIntoInvoiceTable() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-		String url = "jdbc:mysql://localhost:3306/Invoice";
-		String username = "root";
-		String password = "root";
 
-		
-		
-		
-		
-		
 		Scanner sa = new Scanner(System.in);
-		System.out.println(" customerName :");
-		String customerName=sa.next();	
+		System.out.println("PLS Enter Database URL");
+		String url = sa.next();
+		
+		System.out.println("PLS Enter userName");
+		String user = sa.next();
+		
+		System.out.println("PLS Enter password");
+		String pass = sa.next();
+		
+		Scanner s0 = new Scanner(System.in);
+		System.out.println(" itemName :");
+		String item_Name=s0.next();	
+		
 		
 		Scanner s1 = new Scanner(System.in);
-		System.out.println(" phoneNumber :");
-		int phoneNumber=s1.nextInt();
+		System.out.println(" customerName :");
+		String customer_Name=s1.next();	
 		
 		Scanner s2 = new Scanner(System.in);
+		System.out.println(" phoneNumber :");
+		int phone_Number=s2.nextInt();
+		
+		Scanner s3 = new Scanner(System.in);
 		System.out.println(" invoiceDate :");
-		int invoiceDate=s2.nextInt();
+		String invoice_Date=s3.next();
 		
-		
-		
-		Scanner s3= new Scanner(System.in);
-		System.out.println(" numberItems :");
-		int numberItems=s3.nextInt();
 		
 		
 		Scanner s4= new Scanner(System.in);
-		System.out.println(" totalAmount :");
-		int totalAmount=s4.nextInt();
+		System.out.println(" numberItems :");
+		int number_Items=s4.nextInt();
 		
 		
 		Scanner s5= new Scanner(System.in);
-		System.out.println(" paidAmoun :");
-		int paidAmoun=s5.nextInt();
+		System.out.println(" totalAmount :");
+		int total_Amount=s5.nextInt();
+		
 		
 		Scanner s6= new Scanner(System.in);
+		System.out.println(" paidAmoun :");
+		int paid_Amoun=s6.nextInt();
+		
+		Scanner s7= new Scanner(System.in);
 		System.out.println(" balance :");
-		int balance=s6.nextInt();
+		int balance=s7.nextInt();
+		
+		System.out.println(" item Id :");
+		int item_Id=s7.nextInt();
+		
+		String sql = "select id  from Items where itemName ='" +item_Name  + "'";
+		Connection con = null;
 		
 		
-
-//		String customerName = "  ";
-//		Integer phoneNumber = 13344788;
-//		Integer invoiceDate = 2023-01-12;
-//		Integer numberItems = 1345;
-//		Integer totalAmount = 89;
-//		Integer paidAmoun = 567;
-//		Integer balance = 5769;
-		int user = sa.nextInt();
-		for (int i = 1; i <= user; i++) {
-
-			String sql = "INSERT INTO  Invoice VALUES ('" +  customerName + "',"+phoneNumber  +","+phoneNumber  +","+invoiceDate+","+numberItems+","+totalAmount+","+paidAmoun+","+balance
-					+ ")";
+		
+		
+		try {
+			Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			
+			DriverManager.registerDriver(driver);
 			
-			java.sql.Connection conn = null;
+			con = DriverManager.getConnection(url, user, pass);
+			PreparedStatement pstmt = con.prepareStatement(sql);
+		
 			try {
-				Driver driver = (Driver) Class.forName("com.mysql.jdbc.Driver").newInstance();
-				DriverManager.registerDriver(driver);
-				conn = DriverManager.getConnection(url, username, password);
-				java.sql.Statement st = conn.createStatement();
-				int m = st.executeUpdate(sql);
-				if (m >= 1) {
-					System.out.println("inserted data successfuly...");
-
-				} else {
-					System.out.println(" faild inserted data...");
+				int shop_id = 1;
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					shop_id = rs.getInt("id");
 				}
-				conn.close();
-			} catch (Exception ex) {
-				System.err.println(ex);
+				sql = "INSERT INTO Invoice(customerName,phoneNumber,invoiceDate,numberItems,totalAmount,paidAmoun,balance,Items_id)VALUES(?,?,?,?,?,?,?,?)";
+				try {
+					PreparedStatement pstmt3 = con.prepareStatement(sql);
+				//	pstmt3.setString(1, item_Name);
+					pstmt3.setString(1, customer_Name);
+					pstmt3.setInt(2, phone_Number);
+					pstmt3.setString(3, invoice_Date);
+					pstmt3.setInt(4, number_Items);
+					pstmt3.setInt(5, total_Amount);
+					pstmt3.setInt(6, paid_Amoun);
+					pstmt3.setInt(7, balance);
+					pstmt3.setInt(8, item_Id);
+					pstmt3.executeUpdate();
+					System.out.println("added successfully");
+					Driver driver1 = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+					DriverManager.registerDriver(driver1);
+					con = DriverManager.getConnection(url, user, pass);
+					Statement st = (Statement) con.createStatement();
+					int m = ((java.sql.Statement) st).executeUpdate(sql);
+					if (m >= 1) {
+						System.out.println("Inserte table in database is success...");
+					} else {
+						System.out.println(" table already Inserte in given database...");
+					}
+					con.close();
+				} catch (Exception ex) {
+					System.err.println(ex);
+				}
+			} catch (SQLException e) {
+				System.out.println(e);
 			}
-
+		} catch (SQLException e) {
+			System.out.println(e);
 		}
 	}
+	
+	
 
 	
 	

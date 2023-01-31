@@ -98,19 +98,12 @@ public class Menu {
                      	
                      	bigMenu = true;
                     	
-                    	
-						
 						break;
-						
-//                    case 6:	
-//                 
-//                    	break;
-                    	
 					}
-				break;
-				
+             
+					
 				}subMenue1=false; 
-				
+				break;
 				
 				
 				
@@ -156,7 +149,8 @@ public class Menu {
 						
 						
 					case 3:
-						
+//						Items itemsUpdate=new Items();
+//						itemsUpdate.updateByItems();
 						
 						break;
 						
