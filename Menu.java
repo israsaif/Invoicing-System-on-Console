@@ -28,8 +28,8 @@ public class Menu {
 			case 1:
 				while(subMenue1){
 					
-					System.out.println("0.createShopTable");
-					System.out.println("1.insertShopTable");
+					System.out.println("1.createShopTable");
+//					System.out.println("1.insertShopTable");
 					System.out.println("2.Load Data invoice");
 					System.out.println("3.Load Data Items");
 					System.out.println("4.Set Shop Name");
@@ -43,7 +43,7 @@ public class Menu {
 
 					switch (options){
 					
-	                 case 0:
+	                 case 1:
 						
 						
 						Shop shop = new Shop ();
@@ -54,32 +54,17 @@ public class Menu {
 						
 						
 						break;
-					case 1:
-						Shop Shop=new Shop();
-						Shop.insertIntoShopTable();
+					case 2:
 						
-						
-						
-						
-						
-						
-					
-						
-						
-					
-						break;
-						
-					case 2:	
 						
 						Invoice invoice = new Invoice();
 						invoice.insertIntoInvoiceTable();
 						
 						
+					
+						break;
 						
-						
-						
-					case 3:
-						
+					case 3:	
 						
 						Items items= new Items();
 						items.insertIntoItemsTable();
@@ -87,47 +72,39 @@ public class Menu {
 						
 						
 						
+					case 4:
+						
+						Shop Shop=new Shop();
+						Shop.insertIntoShopTable();
 						
 						
 						
 						break;
 						
 						
-					case 4:
+					case 5:
 						
 						
 						Shop shop1= new Shop();
 						shop1.insertIntoShopTable();
 						
 						
-						
-						
-						
-						
-						
-						
 						break;
 						
 						
-                    case 5:
+                    case 6:
 						
-                    	
+                    	 subMenue1=false;
+                     	
+                     	bigMenu = true;
                     	
                     	
 						
 						break;
 						
-						
-						
-                    case 6:	
-                    	
-                    	
-                    subMenue1=false;
-                    	
-                    	bigMenu = true;
-						
-                    	break;
-                    	
+//                    case 6:	
+//                 
+//                    	break;
                     	
 					}
 				break;
@@ -139,6 +116,7 @@ public class Menu {
 				
 			case 2:
 				while(subMenue2){
+					System.out.println("0.create Items");
 					System.out.println("1.Add Items");
 					System.out.println("2.Delete Items");
 					System.out.println("3.Change Item Price");
@@ -152,20 +130,26 @@ public class Menu {
 					
 					switch (options){
 					
+					case 0:
 					
-					
-					
-					case 1:
+						
 						Items items = new Items();
 						items.createItemsTable();
 						
 						break;
 						
 						
+					case 1:
+						Items items2= new Items();
+						items2.insertIntoItemsTable();
+						
+						break;
+						
+						
 						
 					case 2:
-						
-						
+						Items itemsDelete = new Items();
+						itemsDelete.deleteByItems();
 						
 						break;
 						

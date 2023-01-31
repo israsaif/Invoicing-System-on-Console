@@ -11,7 +11,7 @@ import com.mysql.cj.xdevapi.Statement;
 
 public class Shop {
 	private String  shopName;
-	private int  shopId;
+//	private int  shopId;
 	private int telephone;
 	private String Fax;
 	private String  email; 
@@ -25,13 +25,13 @@ public class Shop {
 		this.shopName = shopName;
 	}
 
-	public int getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(int shopId) {
-		this.shopId = shopId;
-	}
+//	public int getShopId() {
+//		return shopId;
+//	}
+//
+//	public void setShopId(int shopId) {
+//		this.shopId = shopId;
+//	}
 
 	public int getTelephone() {
 		return telephone;
@@ -183,9 +183,9 @@ public class Shop {
 		System.out.println("PLS Enter email ");
 		String email = sa.next();
 		
-		for (int i = 1; i <= 1; i++) {
+		//for (int i = 1; i <= 1; i++) {
 
-			String sql = "INSERT INTO  Shop VALUES (" + shop_Name + ",'" + telephone  + "','"+ Fax + "','" + email + ")";
+			String sql = "INSERT INTO  Shop(shopName,telephone,Fax,email )"+" VALUES ('" + shop_Name+ "'," +telephone +",'"+Fax+"','"+email +"' )";
 					
 			java.sql.Connection conn = null;
 			try {
@@ -239,7 +239,7 @@ public class Shop {
 	
 	
 	
-}
+
 	
 	
 	

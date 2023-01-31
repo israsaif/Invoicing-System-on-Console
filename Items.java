@@ -90,7 +90,7 @@ public class Items {
 		String pass = sa.next();
 		
 		System.out.println("PLS Enter item ID ");
-		String item_Id = sa.next();
+		int item_Id = sa.nextInt();
 		
 		System.out.println("PLS Enter item Name");
 		String item_Name = sa.next();
@@ -118,7 +118,7 @@ public class Items {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 		
 			try {
-				int shop_id = 0;
+				int shop_id = 1;
 				ResultSet rs = pstmt.executeQuery();
 				if (rs.next()) {
 					shop_id = rs.getInt("id");
@@ -126,7 +126,7 @@ public class Items {
 				sql = "INSERT INTO Items(itemId,itemName,unitPrice,quantity,qtyAmount,Shop_id)VALUES(?,?,?,?,?,?)";
 				try {
 					PreparedStatement pstmt3 = con.prepareStatement(sql);
-					pstmt3.setString(1, item_Id);
+					pstmt3.setInt(1, item_Id);
 					pstmt3.setString(2, item_Name);
 					pstmt3.setString(3, unitPrice);
 					pstmt3.setInt(4, quantity);
@@ -156,5 +156,93 @@ public class Items {
 		}
 	}
 	
+	
+	public static void deleteByItems() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		String url = "jdbc:mysql://localhost:3306/Invoice";
+		String username = "root";
+		String password = "root";
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+//			try {
+				
+//			} catch (Exception e) {
+//				System.out.println(e);
+//			}
+			Driver driver =(Driver)Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			DriverManager.registerDriver(driver);
+			conn = DriverManager.getConnection(url, username, password);
+			Statement st =(Statement) conn.createStatement();
+//			System.out.println("Connection is created successfully:");
+			
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Please Enter any id to delete  :");
+			int userinput = scanner.nextInt();
+
+			
+
+			String sql = "delete from Items where id ='" + userinput + "'";
+			int result = ((java.sql.Statement) st).executeUpdate(sql);
+			System.out.println("Record has been delete in the table successfully..................");
+		} catch (SQLException excep) {
+			excep.printStackTrace();
+		
+		}
+//		} catch (Exception excep) {
+//			excep.printStackTrace();
+//		}
 	}
+}
+//		} finally {
+//			try {
+//				if (stmt != null)
+//					conn.close();
+//			} catch (SQLException se) {
+//			}
+//			try {
+//				if (conn != null)
+//					conn.close();
+//			} catch (SQLException se) {
+//				se.printStackTrace();
+//			}
+//		}
+//		System.out.println("Please check it in the MySQL Table. Record is now delete.......");
+//	}
+
+	
+//	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
