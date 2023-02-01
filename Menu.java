@@ -149,14 +149,14 @@ public class Menu {
 						
 						
 					case 3:
-//						Items itemsUpdate=new Items();
-//						itemsUpdate.updateByItems();
+					Items itemsUpdate=new Items();
+						itemsUpdate.updateByItems();
 						
 						break;
 						
 					case 4:
-						
-						
+						Items items4=new Items();
+						items4.readFromTable();
 						
 						break;
 						
@@ -192,19 +192,52 @@ public class Menu {
 				
 				break;
 
+				
+				
+				
+				
 			case 5:
 				
+				
+				Invoice invoice5=new Invoice();
+				invoice5.readFromInvoiceTable();
 				break;
 
+				
+				
+				
 			case 6:
+				Invoice invoice6=new Invoice();
+				invoice6.getByIdInvoice();
+				
 				
 				break;
 
-			case 7:
-	
-				break;
-			case 8:
 				
+				
+				
+			case 7:
+				
+	
+				
+				
+				break;
+				
+				
+				
+			case 8:
+				Scanner saa = new Scanner(System.in);
+				System.out.println("Are you sure you want to exit?");
+				String bb1 = saa.next();
+				if(bb1.equals("yes")) {
+					System.exit(0);
+				}else {
+					
+					 bigMenu = true;
+					 subMenue1=false;
+					 subMenue2 = false;
+				}
+
 						 
 					
 					

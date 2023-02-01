@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -89,8 +90,8 @@ public class Items {
 		System.out.println("PLS Enter password");
 		String pass = sa.next();
 		
-		System.out.println("PLS Enter item ID ");
-		int item_Id = sa.nextInt();
+//		System.out.println("PLS Enter item ID ");
+//		int item_Id = sa.nextInt();
 		
 		System.out.println("PLS Enter item Name");
 		String item_Name = sa.next();
@@ -126,7 +127,7 @@ public class Items {
 				sql = "INSERT INTO Items(itemId,itemName,unitPrice,quantity,qtyAmount,Shop_id)VALUES(?,?,?,?,?,?)";
 				try {
 					PreparedStatement pstmt3 = con.prepareStatement(sql);
-					pstmt3.setInt(1, item_Id);
+					//pstmt3.setInt(1, item_Id);
 					pstmt3.setString(2, item_Name);
 					pstmt3.setString(3, unitPrice);
 					pstmt3.setInt(4, quantity);
@@ -157,90 +158,104 @@ public class Items {
 	}
 	
 	
-	public static void deleteByItems() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public static void deleteByItems()  {
 		String url = "jdbc:mysql://localhost:3306/Invoice";
 		String username = "root";
 		String password = "root";
-		Connection conn = null;
-		//Statement stmt = null;
+		Connection con = null;
 		try {
-//			try {
-				
-//			} catch (Exception e) {
-//				System.out.println(e);
-//			}
+
 			Driver driver =(Driver)Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			DriverManager.registerDriver(driver);
-			conn = DriverManager.getConnection(url, username, password);
-			Statement st =(Statement) conn.createStatement();
-//			System.out.println("Connection is created successfully:");
+			con = DriverManager.getConnection(url, username, password);
+			java.sql.Statement st =con.createStatement();
 			
 			Scanner scanner = new Scanner(System.in);
 			System.out.println("Please Enter id you want to delete :");
-			int userinput = scanner.nextInt();
+			String userinput = scanner.next();
 			String sql = "delete from Items where id ='" + userinput + "'";
-			int result =((java.sql.Statement) st).executeUpdate(sql);
+			int result = ((java.sql.Statement) st).executeUpdate(sql);
 			
-			//System.out.println("Record has been delete in the table successfully..................");
 		} catch (Exception excep) {
 			System.err.println(excep);
 		
 		}
-//		} catch (Exception excep) {
-//			excep.printStackTrace();
-//		}
+
 	}
 	
-//	public static void updateByItems() {
-//
-//		String url = "jdbc:mysql://localhost:3306/Invoice";
-//		String username = "root";
-//		String password = "root";
-//		Connection conn = null;
-//		Statement stmt = null;
-//		
-//			try {
-//				Class.forName("com.mysql.cj.jdbc.Driver");
-//			} catch (Exception e) {
-//				System.out.println(e);
-//			}
-//			conn = DriverManager.getConnection(url, username, password);
-//			System.out.println("Connection is created successfully:");
-//			stmt = (Statement) conn.createStatement();
-//			Scanner scanner = new Scanner(System.in);
-//			System.out.println("Please Enter any id you want:");
-//			int userinput = scanner.nextInt();
-//			
-//			
-//
-//			Statement st = (Statement) conn.createStatement();
-//			String sql = "UPDATE Items SET qtyAmount='" + userinput+ "'";
-//			int result = ((java.sql.Statement) st).executeUpdate(sql);
-//			System.out.println("Record has been updated in the table successfully..................");
-//		} catch (SQLException excep) {
-//			excep.printStackTrace();
-//		} catch (Exception excep) {
-//			excep.printStackTrace();
-//		} finally {
-//			try {
-//				if (stmt != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//			}
-//			try {
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException se) {
-//				se.printStackTrace();
-//			}
-//		}
-//		System.out.println("Please check it in the MySQL Table. Record is now updated.......");
-//
-//	}
+	public static void updateByItems() {
+
+		String url = "jdbc:mysql://localhost:3306/Invoice";
+		String username = "root";
+		String password = "root";
+		Connection conn = null;
+		
+		java.sql.Connection conn1 = null;
+			try {
+
+				
+		    Driver driver =(Driver)Class.forName("com.mysql.cj.jdbc.Driver").newInstance();	
+		    DriverManager.registerDriver(driver);
+			conn1 = DriverManager.getConnection(url, username, password);
+			java.sql.Statement stmt =  conn1.createStatement();
+			
+			
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Please Enter any id you want to update:");
+			int user_input = scanner.nextInt();
+			
+			System.out.println("Please Enter the new qtyAmount:");
+			int qty_Amount = scanner.nextInt();
+			
+			
+
+		//	Statement st = (Statement) conn.createStatement();
+			String sql = "UPDATE Items SET qtyAmount=" + qty_Amount+ " where id="+user_input+"";
+			int result =  stmt.executeUpdate(sql);
+			
+			} catch (Exception excep) {
+				System.err.println(excep);
+			
+			}
+
+		}
 
 	
 	
-	
+	public static void readFromTable() {
+		String url = "jdbc:mysql://localhost:3306/Invoice";
+		String username = "root";
+		String password = "root";
+
+		String sql = "SELECT * FROM Items";
+		
+
+		java.sql.Connection conn = null;
+		try {
+			Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			DriverManager.registerDriver(driver);
+			conn = DriverManager.getConnection(url, username, password);
+			java.sql.Statement st = conn.createStatement();
+			ResultSet resultSet = st.executeQuery(sql);
+			int count = 1;
+			while (resultSet.next()) {
+				System.out.println("##########################");
+				System.out.println ("id:"+" "+resultSet.getInt(1));
+				System.out.println ("itemID:"+" " + resultSet.getInt(2));
+				System.out.println ("itemName:"+" " + resultSet.getString(3));
+				System.out.println ("unitPrice:"+ " " + resultSet.getString(4));
+				System.out.println(" quantity:"+" " + resultSet.getInt(5));
+				System.out.println(" qtyAmount:"+" " +  resultSet.getInt(6));
+				System.out.println("##########################");
+
+			}
+
+			conn.close();
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
+
+	}
 	
 	
 	

@@ -3,6 +3,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -27,6 +28,14 @@ public class Invoice {
 	private int totalAmount;
 	private int paidAmoun ;
 	private int balance ;
+	Items [] items;
+	
+	public Items[] getItems() {
+		return items;
+	}
+	public void setItems(Items[] items) {
+		this.items = items;
+	}
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -210,8 +219,90 @@ public class Invoice {
 	}
 	
 	
+	public static void readFromInvoiceTable() {
+		String url = "jdbc:mysql://localhost:3306/Invoice";
+		String username = "root";
+		String password = "root";
 
+		String sql = "SELECT * FROM Invoice";
+		
+
+		java.sql.Connection conn = null;
+		try {
+			Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			DriverManager.registerDriver(driver);
+			conn = DriverManager.getConnection(url, username, password);
+			java.sql.Statement st = conn.createStatement();
+			ResultSet resultSet = st.executeQuery(sql);
+			int count = 1;
+			while (resultSet.next()) {
+				System.out.println("##########################");
+				System.out.println ("id:"+" "+resultSet.getInt(1));
+				System.out.println ("customerName:"+" " + resultSet.getString(2));
+				System.out.println ("phone_Number:"+" " + resultSet.getInt(3));
+				System.out.println ("invoice_Date:"+ " " + resultSet.getDate(4));
+				System.out.println(" number_Items:"+" " + resultSet.getInt(5));
+				System.out.println(" total_Amount:"+" " +  resultSet.getInt(6));
+				System.out.println(" paid_Amoun:"+" " +  resultSet.getInt(6));
+				System.out.println(" balance:"+" " +  resultSet.getInt(6));
+				System.out.println(" item_Id:"+" " +  resultSet.getInt(6));
+
+				System.out.println("##########################");
+
+			}
+
+			conn.close();
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
+
+	}
 	
+	
+	public static void getByIdInvoice() {
+
+		String url = "jdbc:mysql://localhost:3306/Invoice";
+		String username = "root";
+		String password = "root";
+
+		Scanner sa = new Scanner(System.in);
+		System.out.println("id input from the user:");
+		int user = sa.nextInt();
+
+		String sql = "select * from Invoice inner join items on items.id = invoice.Items_id where invoice.id=" + user+"";
+
+		java.sql.Connection conn = null;
+		try {
+			Driver driver = (Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			DriverManager.registerDriver(driver);
+			conn = DriverManager.getConnection(url, username, password);
+			java.sql.Statement st = conn.createStatement();
+			ResultSet resultSet = st.executeQuery(sql);
+			int count = 0;
+			
+			while (resultSet.next()) {
+			
+			System.out.println("##########################");
+			System.out.println ("id:"+" "+resultSet.getInt(1));
+			System.out.println ("customerName:"+" " + resultSet.getString(2));
+			System.out.println ("phone_Number:"+" " + resultSet.getInt(3));
+			System.out.println ("invoice_Date:"+ " " + resultSet.getDate(4));
+			System.out.println(" number_Items:"+" " + resultSet.getInt(5));
+			System.out.println(" total_Amount:"+" " +  resultSet.getInt(6));
+			System.out.println(" paid_Amoun:"+" " +  resultSet.getInt(6));
+			System.out.println(" balance:"+" " +  resultSet.getInt(6));
+			//System.out.println(" item_Id:"+" " +  resultSet.getInt(6));
+
+			System.out.println("##########################");
+
+			}
+
+			conn.close();
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
+
+	}
 	
 	
 	
